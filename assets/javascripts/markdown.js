@@ -1,0 +1,1 @@
+Discourse.Markdown.whiteListTag('table', '*', /^[\s\S]+$/);
