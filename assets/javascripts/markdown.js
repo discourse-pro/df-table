@@ -8,9 +8,7 @@
 					var i;
 					for (i = 0; i < arguments.length; i++) {
 						var tag = arguments[i];
-						//console.log('before: ' + html4.ELEMENTS[tag]);
 						html4.ELEMENTS[tag] = html4.ELEMENTS[tag] &~ html4.eflags.UNSAFE;
-						//console.log('after: ' + html4.ELEMENTS[tag]);
 					}
 				};
 				removeUnsafeFlag('table', 'tbody', 'thead', 'tfoot', 'caption', 'tr', 'th', 'td');
