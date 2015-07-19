@@ -1,7 +1,22 @@
 .cooked {
-	// 2015-07-19
-	// К сожалению, ядро устанавливает для ячеек padding: 0,
-	// и поэтому cellpadding никак нельзя заставить работать.
-	// Делаем отступы хоть так.
-	td, th {padding: 2px 4px;}
+	table {
+		caption {
+			font-weight: bold;
+			font-size: 1.17em;
+			padding: 6px 13px;
+		}
+		tr {
+			&:nth-child(2n) {background-color: #f8f8f8;}
+		}
+		// 2015-07-19
+		// К сожалению, ядро устанавливает для ячеек padding: 0,
+		// и поэтому cellpadding никак нельзя заставить работать.
+		// Делаем отступы хоть так.
+		td, th {
+			padding: 6px 13px;
+			border: 1px solid #ddd;
+			&.money {text-align: right;}
+			&.number {text-align: right;}
+		}
+	}
 }
