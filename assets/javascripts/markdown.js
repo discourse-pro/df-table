@@ -49,13 +49,13 @@
 	};
 	var removeLineBreaksOutsideCells = function(table) {
 		/**
-		 * @link http://stackoverflow.com/a/3395858/254475
+		 * @link http://stackoverflow.com/a/3395858
 		 * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter
 		 */
 		table = table.replace(/(<td(?: [^>]*)?>)([\s\S]*?)(<\/td>)/gmi, replacer);
 		table = table.replace(/(<th(?: [^>]*)?>)([\s\S]*?)(<\/th>)/gmi, replacer);
 		table = table.replace(breakRegex, ' ');
-		/** @link http://stackoverflow.com/a/1144788/254475 */
+		/** @link http://stackoverflow.com/a/1144788 */
 		table = table.replace(new RegExp(preservedBreak, 'g'), "\n");
 		return table;
 	};
