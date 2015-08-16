@@ -1,5 +1,5 @@
 import {decorateCooked} from 'discourse/lib/plugin-api';
-export default {name: 'df-table', after: 'inject-objects', initialize: function(c) {
+export default {name: 'df-table', initialize: function(c) {
 	decorateCooked(c, onDecorateCooked);
 }};
 /**
