@@ -1,5 +1,5 @@
 import {decorateCooked} from 'discourse/lib/plugin-api';
-export default {name: 'df-table', initialize: function(c) {
+export default {name: 'df-table', initialize(c) {
 	decorateCooked(c, onDecorateCooked);
 }};
 /**
