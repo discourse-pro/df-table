@@ -11,7 +11,7 @@ export default {name: 'df-table', initialize(c) {
  * const $tables = $('.cooked > table', $post);
  * @used-by decorateCooked
  * @link https://github.com/discourse/discourse/blob/v1.4.0.beta7/app/assets/javascripts/discourse/lib/plugin-api.js.es6#L5
- * @param {jQuery} HTMLDivElement $post
+ * @param {jQuery} $post HTMLDivElement
  * @returns void
  */
 const onDecorateCooked = function($post) {
