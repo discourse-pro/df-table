@@ -1,0 +1,13 @@
+en:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          df_table: 'Discourse.PRO Table'
+    df:
+      table:
+        title: 'Table'
+  js:
+    composer:
+      df:
+        table: 'Table'

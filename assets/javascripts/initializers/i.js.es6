@@ -1,7 +1,9 @@
 import {decorateCooked} from 'discourse/lib/plugin-api';
-export default {name: 'df-table', initialize(c) {
+import TableEditor from 'discourse/plugins/df-table/models/editor';
+export default {name: 'df-table', initialize(c) {if (Discourse.SiteSettings['«Table»_Enabled']) {
 	decorateCooked(c, onDecorateCooked);
-}};
+	TableEditor.create();
+}}};
 /**
  * 2015-08-06
  * 1) decorateCooked вызывает своих подписчиков для каждого сообщения отдельно.

@@ -1,0 +1,13 @@
+ru:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          df_table: 'Discourse.PRO Таблица'
+    df:
+      table:
+        title: 'Таблица'
+  js:
+    composer:
+      df:
+        table: 'Таблица'
