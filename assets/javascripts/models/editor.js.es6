@@ -28,11 +28,8 @@ export default Ember.Object.extend({
 	 * @param {jQuery} $c HTMLDivElement
 	 */
 	render($c) {
-		var data = function() {
-			return Handsontable.helper.createSpreadsheetData(100, 12);
-		};
-		window.myTable = new Handsontable($c.get(0), {
-			data: data(),
+		new Handsontable($c.get(0), {
+			data: this.tableData(),
 			height: 396,
 			colHeaders: true,
 			rowHeaders: true,
@@ -40,6 +37,20 @@ export default Ember.Object.extend({
 			columnSorting: true,
 			contextMenu: true
 		});
+	},
+	/** @return {String[][]} */
+	tableData() {
+		var result = [];
+		$('tr', $(this.tableHtml())).each(function() {
+			/** @type {String[]} */
+			var rowData = [];
+			$('th,td', $(this)).each(function() {
+				rowData.push($(this).html());
+			});
+			result.push(rowData);
+		});
+		debugger;
+		return result;
 	},
 	/**
 	 * 2015-08-18
