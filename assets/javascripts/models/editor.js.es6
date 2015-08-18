@@ -12,15 +12,16 @@ export default Ember.Object.extend({
 		var _this = this;
 		loadScript('/plugins/df-table/handsontable.full.js').then(function() {
 			$.dfMagnificPopup.open({
-				items: {
-					src: $('<div/>').addClass('df-table-popup').html('здесь будет таблица')
-					,type: 'inline'
-				}
-				,callbacks: {
+				callbacks: {
 					/** @param {Object} data */
 					change(data) {_this.render(data.inlineElement);}
 					//,close() {debugger;}
 		  		}
+				,items: {
+					src: $('<div/>').addClass('df-table-popup')
+					,type: 'inline'
+				}
+				,showCloseBtn: false
 			});
 		});
 	},
@@ -28,9 +29,12 @@ export default Ember.Object.extend({
 	 * @param {jQuery} $c HTMLDivElement
 	 */
 	render($c) {
-		new Handsontable($c.get(0), {
-			data: this.tableData(),
-			height: 396,
+		const $h = $('<div/>').addClass('df-handsontable');
+		$c.append($h);
+		const data = this.tableData();
+		new Handsontable($h.get(0), {
+			data: data,
+			height: Math.min(data.length * 22 + 100, Math.round(0.75 * $(window).height())),
 			colHeaders: true,
 			rowHeaders: true,
 			stretchH: 'all',

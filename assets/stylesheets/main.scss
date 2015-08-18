@@ -11,8 +11,13 @@
 	margin: 20px auto;
 	// 2015-08-18
 	// http://stackoverflow.com/a/301164
-	> table {
+	/*> table {
 		margin-left: auto;
 		margin-right: auto;
+	} */
+	.df-handsontable {
+		// У контейнера Handsontable не должно быть padding,
+		// иначе будет дефект задваивания заголовков:
+		// http://stackoverflow.com/a/32084174
 	}
 }
