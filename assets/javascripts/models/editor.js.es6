@@ -6,28 +6,27 @@ import loadScript from 'discourse/lib/load-script';
  */
 export default Ember.Object.extend({
 	init() {
+		this._super();
 		//this.tableHtml()
 		debugger;
 		df.loadCss('/plugins/df-table/handsontable.full.css');
 		loadScript('/plugins/df-table/handsontable.full.js').then(function() {
-			debugger;
-		});
-		this._super();
-		$.dfMagnificPopup.open({
-			items: {
-				src: $('<div/>').addClass('df-table-popup').html('здесь будет таблица')
-				,type: 'inline'
-			}
-			,callbacks: {
-				beforeOpen(data) {}
-				,elementParse(data) {}
-				,beforeChange(data) {}
-				,change(data) {
-					debugger;
-					//const imageId = data.el.children('img').attr('data-file-id');
+			$.dfMagnificPopup.open({
+				items: {
+					src: $('<div/>').addClass('df-table-popup').html('здесь будет таблица')
+					,type: 'inline'
 				}
-				,close() {debugger;}
-	  		}
+				,callbacks: {
+					beforeOpen(data) {}
+					,elementParse(data) {}
+					,beforeChange(data) {}
+					,change(data) {
+						debugger;
+						//const imageId = data.el.children('img').attr('data-file-id');
+					}
+					,close() {debugger;}
+		  		}
+			});
 		});
 		//console.log(this.tableHtml());
 		/*$('body').append('<div class="emoji-modal-wrapper"></div>');
