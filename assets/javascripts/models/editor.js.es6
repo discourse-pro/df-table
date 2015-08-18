@@ -1,17 +1,26 @@
+import loadScript from 'discourse/lib/load-script';
 /**
  * @external {Chunks}
  * @external Ember.Object
  */
 export default Ember.Object.extend({
 	init() {
+		//this.tableHtml()
+		debugger;
+		loadScript('/discourse/plugins/df-table/models/admin/files/download').then(function() {
+
+		});
 		this._super();
 		$.dfMagnificPopup.open({
 			items: {
-				src: $('<div/>').addClass('df-table-popup').html(this.tableHtml())
+				src: $('<div/>').addClass('df-table-popup').html('здесь будет таблица')
 				,type: 'inline'
 			}
 			,callbacks: {
-				change(data) {
+				beforeOpen(data) {}
+				,elementParse(data) {}
+				,beforeChange(data) {}
+				,change(data) {
 					debugger;
 					//const imageId = data.el.children('img').attr('data-file-id');
 				}
