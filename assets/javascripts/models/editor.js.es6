@@ -8,8 +8,8 @@ export default Ember.Object.extend({
 	init() {
 		this._super();
 		//this.tableHtml()
-		debugger;
 		df.loadCss('/plugins/df-table/handsontable.full.css');
+		var _this = this;
 		loadScript('/plugins/df-table/handsontable.full.js').then(function() {
 			$.dfMagnificPopup.open({
 				items: {
@@ -17,22 +17,29 @@ export default Ember.Object.extend({
 					,type: 'inline'
 				}
 				,callbacks: {
-					beforeOpen(data) {}
-					,elementParse(data) {}
-					,beforeChange(data) {}
-					,change(data) {
-						debugger;
-						//const imageId = data.el.children('img').attr('data-file-id');
-					}
-					,close() {debugger;}
+					/** @param {Object} data */
+					change(data) {_this.render(data.inlineElement);}
+					//,close() {debugger;}
 		  		}
 			});
 		});
-		//console.log(this.tableHtml());
-		/*$('body').append('<div class="emoji-modal-wrapper"></div>');
-		$('.emoji-modal-wrapper').click(function() {
-			$('.emoji-modal, .emoji-modal-wrapper').remove();
-		});*/
+	},
+	/**
+	 * @param {jQuery} $c HTMLDivElement
+	 */
+	render($c) {
+		var data = function() {
+			return Handsontable.helper.createSpreadsheetData(100, 12);
+		};
+		window.myTable = new Handsontable($c.get(0), {
+			data: data(),
+			height: 396,
+			colHeaders: true,
+			rowHeaders: true,
+			stretchH: 'all',
+			columnSorting: true,
+			contextMenu: true
+		});
 	},
 	/**
 	 * 2015-08-18
