@@ -1,3 +1,4 @@
+import df from 'discourse/plugins/df-core/df';
 import loadScript from 'discourse/lib/load-script';
 /**
  * @external {Chunks}
@@ -7,8 +8,9 @@ export default Ember.Object.extend({
 	init() {
 		//this.tableHtml()
 		debugger;
-		loadScript('/discourse/plugins/df-table/models/admin/files/download').then(function() {
-
+		df.loadCss('/plugins/df-table/handsontable.full.css');
+		loadScript('/plugins/df-table/handsontable.full.js').then(function() {
+			debugger;
 		});
 		this._super();
 		$.dfMagnificPopup.open({
