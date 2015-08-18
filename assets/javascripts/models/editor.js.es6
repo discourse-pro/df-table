@@ -5,7 +5,24 @@
 export default Ember.Object.extend({
 	init() {
 		this._super();
-		console.log(this.tableHtml());
+		$.dfMagnificPopup.open({
+			items: {
+				src: $('<div/>').addClass('df-table-popup').html(this.tableHtml())
+				,type: 'inline'
+			}
+			,callbacks: {
+				change(data) {
+					debugger;
+					//const imageId = data.el.children('img').attr('data-file-id');
+				}
+				,close() {debugger;}
+	  		}
+		});
+		//console.log(this.tableHtml());
+		/*$('body').append('<div class="emoji-modal-wrapper"></div>');
+		$('.emoji-modal-wrapper').click(function() {
+			$('.emoji-modal, .emoji-modal-wrapper').remove();
+		});*/
 	},
 	/**
 	 * 2015-08-18
