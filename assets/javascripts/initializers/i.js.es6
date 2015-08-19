@@ -56,16 +56,29 @@ export default {name: 'df-table', initialize(c) {if (Discourse.SiteSettings['«T
 const onDecorateCooked = function($post) {
 	/** @type {jQuery} HTMLTableElement[] */
 	const $tables = $('.cooked > table', $post);
-	$('td', $tables).each(function() {
-		/** @type {jQuery} HTMLTableCellElement */
-		const $td = $(this);
-		/** @type {String} */
-		const text = $td.html().trim();
-		if (/^[+-]?[\d]+(?:[.,]?[\d]+)?$/.test(text)) {
-			$td.addClass('number');
-		}
-		if (/^\$[\d]+(?:[.,]?[\d]+)?$/.test(text)) {
-			$td.addClass('money');
-		}
+	$tables.each(function() {
+		const $table = $(this);
+		const hasHeader = !!$('th', $table).length;
+		debugger;
+		$('tr', $table).each(function(rowIndex) {
+			debugger;
+			$('td', $(this)).each(function() {
+				debugger;
+				/** @type {jQuery} HTMLTableCellElement */
+				const $td = $(this);
+				/** @type {String} */
+				var text = $td.html().trim();
+				if ('#' === text) {
+					text = hasHeader ? rowIndex : rowIndex + 1;
+				}
+				$td.html(text);
+				if (/^[+-]?[\d]+(?:[.,]?[\d]+)?$/.test(text)) {
+					$td.addClass('number');
+				}
+				if (/^\$[\d]+(?:[.,]?[\d]+)?$/.test(text)) {
+					$td.addClass('money');
+				}
+			});
+		});
 	});
 };
