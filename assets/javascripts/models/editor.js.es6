@@ -15,7 +15,7 @@ export default Ember.Object.extend({
 				callbacks: {
 					/** @param {Object} data */
 					change(data) {_this.render(data.inlineElement);}
-					,close() {_this.updateMarkdown();}
+					,close() {_this.onClose();}
 		  		}
 				,items: {
 					src: $('<div/>').addClass('df-table-popup')
@@ -42,7 +42,7 @@ export default Ember.Object.extend({
 			contextMenu: true
 		}));
 	},
-	updateMarkdown() {
+	onClose() {
 		/** @type {Handsontable} */
 		const handsontable = this.get('handsontable');
 		/** @type {String[][]} */
@@ -80,11 +80,28 @@ export default Ember.Object.extend({
 				createRow($tbody, this, '<td>');
 			});
 		}
-		debugger;
+		var _this = this;
 		// https://github.com/zachofalltrades/jquery.format
 		loadScript('/plugins/df-table/dfPrettify.js').then(function() {
-			console.log($.dfPrettify(df.dom.outerHtml($result), {step: "\t"}));
+			_this.updateMarkdown($.dfPrettify(df.dom.outerHtml($result), {step: "\t"}));
 		});
+	},
+	/**
+	 * @param {String} newContent
+	 */
+	updateMarkdown(newContent) {
+		/**
+		 * https://github.com/discourse/discourse/blob/v1.4.0.beta9/app/assets/javascripts/discourse/controllers/composer.js.es6#L4
+		 */
+		const composerController = Discourse.__container__.lookup('controller:composer');
+		/**
+		 * https://github.com/discourse/discourse/blob/v1.4.0.beta9/app/assets/javascripts/discourse/models/composer.js.es6#L35
+		 * @type {Composer}
+		 */
+		const composerModel = composerController.get('model');
+		/** @type {String} */
+		var allContent = composerModel.get('reply');
+		composerModel.set('reply', allContent.replace(this.initialContent(), newContent));
 	},
 	/** @return {String[][]} */
 	initialTableData() {
@@ -97,8 +114,25 @@ export default Ember.Object.extend({
 			});
 			result.push(rowData);
 		});
-		debugger;
 		return result;
+	},
+	/**
+	 * 2015-08-18
+	 * Алгоритм не работает, если курсор расположен внутри открывающего или закрывающего тега table,
+	 * но нас это устаивает
+	 * @return {String}
+	 */
+	initialContent() {
+		if (!this.get('_initialContent')) {
+			/** @type {Chunks} */
+			const chunk = this.get('chunk');
+			/** @type {String} */
+			const start = chunk.before.substring(chunk.before.lastIndexOf('<table'));
+			/** @type {String} */
+			const end = chunk.after.substring(0, chunk.after.indexOf('</table>')) + '</table>';
+			this.set('_initialContent', start + end);
+		}
+		return this.get('_initialContent');
 	},
 	/**
 	 * 2015-08-18
@@ -108,13 +142,7 @@ export default Ember.Object.extend({
 	 */
 	$initialTable() {
 		if (!this.get('_$initialTable')) {
-			/** @type {Chunks} */
-			const chunk = this.get('chunk');
-			/** @type {String} */
-			const start = chunk.before.substring(chunk.before.lastIndexOf('<table'));
-			/** @type {String} */
-			const end = chunk.after.substring(0, chunk.after.indexOf('</table>')) + '</table>';
-			this.set('_$initialTable', $(start + end));
+			this.set('_$initialTable', $(this.initialContent()));
 		}
 		return this.get('_$initialTable');
 	}
