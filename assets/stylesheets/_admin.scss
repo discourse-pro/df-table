@@ -1,0 +1,8 @@
+// 2015-07-06
+// Обратите внимание, что такой синтаксис не поддерживает звёздочку на конце:
+// надо явно указывать имя файла.
+@import '../../../plugins/df-core/assets/stylesheets/admin-lib/settings';
+.row.setting.df-textarea {
+	//@include df-row-setting-wide;
+	textarea {width: 90%;}
+}

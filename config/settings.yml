@@ -2,3 +2,8 @@ df_table:
   «Table»_Enabled:
     default: true
     client: true
+  «Table»_Template:
+    client: true
+    type: df_textarea
+    max_rows: 10
+    default: "<table>\n\t<caption>Table Caption</caption>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Column 1</th>\n\t\t\t<th>Column 2</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td></td>\n\t\t</tr>\n\t</tbody>\n</table>"

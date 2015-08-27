@@ -140,27 +140,9 @@ export default Ember.Object.extend({
 			this.set('_initialContent',
 				this.isNewTable()
 				// 2015-08-27
-				// Создаём пустую таблицу 2x2
+				// Создаём новую таблицу по заданному администратором шаблону.
 				// https://meta.discourse.org/t/31183/20
-				? '<table>'
-					+ '<caption>Table Caption</caption>'
-					+ '<thead>'
-						+ '<tr>'
-							+ '<th>Column 1</th>'
-							+ '<th>Column 2</th>'
-						+ '</tr>'
-					+ '</thead>'
-					+ '<tbody>'
-					+	'<tr>'
-						+ '<td></td>'
-						+ '<td></td>'
-					+ '</tr>'
-					+	'<tr>'
-						+ '<td></td>'
-						+ '<td></td>'
-					+ '</tr>'
-					+ '</tbody>'
-				+ '</table>'
+				? Discourse.SiteSettings['«Table»_Template']
 				: this.chunk().before.substring(this.nearestStartTagIndexBefore())
 				 + this.chunk().after.substring(0, this.chunk().after.indexOf('</table>')) + '</table>'
 			);

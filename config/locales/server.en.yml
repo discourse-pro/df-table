@@ -1,3 +1,4 @@
 en:
   site_settings:
     «Table»_Enabled: "Enable «<a href='https://discourse.pro/t/38'>Table</a>» plugin."
+    «Table»_Template: "It will be used for new tables."
