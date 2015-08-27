@@ -26,6 +26,7 @@ export default Ember.Object.extend({
 		});
 	},
 	/**
+	 * @used-by init()
 	 * @param {jQuery} $c HTMLDivElement
 	 */
 	render($c) {
@@ -99,12 +100,23 @@ export default Ember.Object.extend({
 		 * @type {Composer}
 		 */
 		const composerModel = composerController.get('model');
-		/** @type {String} */
-		var allContent = composerModel.get('reply');
-		composerModel.set('reply', allContent.replace(this.initialContent(), newContent));
+		if (this.isNewTable()) {
+			// https://github.com/discourse/discourse/blob/v1.4.0.beta9/app/assets/javascripts/discourse/models/composer.js.es6#L293
+			composerModel.appendText(newContent, this.chunk().before.length, {block: true})
+		}
+		else {
+			/** @type {String} */
+			var allContent = composerModel.get('reply');
+			composerModel.set('reply', allContent.replace(this.initialContent(), newContent));
+		}
 	},
-	/** @return {String[][]} */
+	/**
+	 * @private
+	 * @used-by render()
+	 * @return {String[][]}
+	 */
 	initialTableData() {
+		/** @type {String[][]} */
 		var result = [];
 		$('tr', this.$initialTable()).each(function() {
 			/** @type {String[]} */
@@ -120,17 +132,38 @@ export default Ember.Object.extend({
 	 * 2015-08-18
 	 * Алгоритм не работает, если курсор расположен внутри открывающего или закрывающего тега table,
 	 * но нас это устраивает
+	 * @private
 	 * @return {String}
 	 */
 	initialContent() {
-		if (!this.get('_initialContent')) {
-			/** @type {Chunks} */
-			const chunk = this.get('chunk');
-			/** @type {String} */
-			const start = chunk.before.substring(chunk.before.lastIndexOf('<table'));
-			/** @type {String} */
-			const end = chunk.after.substring(0, chunk.after.indexOf('</table>')) + '</table>';
-			this.set('_initialContent', start + end);
+		if (df.u(this.get('_initialContent'))) {
+			this.set('_initialContent',
+				this.isNewTable()
+				// 2015-08-27
+				// Создаём пустую таблицу 2x2
+				// https://meta.discourse.org/t/31183/20
+				? '<table>'
+					+ '<caption>Table Caption</caption>'
+					+ '<thead>'
+						+ '<tr>'
+							+ '<th>Column 1</th>'
+							+ '<th>Column 2</th>'
+						+ '</tr>'
+					+ '</thead>'
+					+ '<tbody>'
+					+	'<tr>'
+						+ '<td></td>'
+						+ '<td></td>'
+					+ '</tr>'
+					+	'<tr>'
+						+ '<td></td>'
+						+ '<td></td>'
+					+ '</tr>'
+					+ '</tbody>'
+				+ '</table>'
+				: this.chunk().before.substring(this.nearestStartTagIndexBefore())
+				 + this.chunk().after.substring(0, this.chunk().after.indexOf('</table>')) + '</table>'
+			);
 		}
 		return this.get('_initialContent');
 	},
@@ -138,12 +171,58 @@ export default Ember.Object.extend({
 	 * 2015-08-18
 	 * Алгоритм не работает, если курсор расположен внутри открывающего или закрывающего тега table,
 	 * но нас это устаивает
+	 * @private
 	 * @return {jQuery} HTMLTableElement
 	 */
 	$initialTable() {
-		if (!this.get('_$initialTable')) {
+		if (df.u(this.get('_$initialTable'))) {
 			this.set('_$initialTable', $(this.initialContent()));
 		}
 		return this.get('_$initialTable');
-	}
+	},
+	/**
+	 * 2015-08-27
+	 * Нам нужно определить, находится ли курсор внутри таблицы.
+	 * Если курсор не находится внутри таблицы, то это значит,
+	 * что надо создать новую таблицу.
+	 * https://meta.discourse.org/t/31183/20
+	 * @private
+	 * @return {Boolean}
+	 */
+	isNewTable() {
+		if (df.u(this.get('_isNewTable'))) {
+			this.set('_isNewTable',
+				 this.nearestStartTagIndexBefore() <= this.nearestEndTagIndexBefore()
+			);
+		}
+		return this.get('_isNewTable');
+	},
+	/**
+	 * 2015-08-27
+	 * @private
+	 * @return {Number}
+	 */
+	nearestEndTagIndexBefore() {
+		if (df.u(this.get('_nearestEndTagIndexBefore'))) {
+			this.set('_nearestEndTagIndexBefore', this.chunk().before.lastIndexOf('</table>'));
+		}
+		return this.get('_nearestEndTagIndexBefore');
+	},
+	/**
+	 * 2015-08-27
+	 * @private
+	 * @return {Number}
+	 */
+	nearestStartTagIndexBefore() {
+		if (df.u(this.get('_nearestStartTagIndexBefore'))) {
+			this.set('_nearestStartTagIndexBefore', this.chunk().before.lastIndexOf('<table'));
+		}
+		return this.get('_nearestStartTagIndexBefore');
+	},
+	/**
+	 * 2015-08-27
+	 * @private
+	 * @return {Chunks}
+	 */
+	chunk() {return this.get('_chunk');}
 });

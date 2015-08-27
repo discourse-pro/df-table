@@ -38,7 +38,7 @@ export default {name: 'df-table', initialize(c) {if (Discourse.SiteSettings['«T
 		 * Emoji всегда возвращает false либо undefined.
 		 * https://github.com/discourse/discourse/blob/v1.4.0.beta9/app/assets/javascripts/discourse/lib/emoji/emoji-toolbar.js.es6#L228-L245
 		 */
-		,execute(chunk, fixupInputArea) {TableEditor.create({chunk: chunk});}
+		,execute(chunk, fixupInputArea) {TableEditor.create({_chunk: chunk});}
 	});
 }}};
 /**
@@ -59,11 +59,8 @@ const onDecorateCooked = function($post) {
 	$tables.each(function() {
 		const $table = $(this);
 		const hasHeader = !!$('th', $table).length;
-		debugger;
 		$('tr', $table).each(function(rowIndex) {
-			debugger;
 			$('td', $(this)).each(function() {
-				debugger;
 				/** @type {jQuery} HTMLTableCellElement */
 				const $td = $(this);
 				/** @type {String} */
