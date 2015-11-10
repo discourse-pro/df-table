@@ -2,7 +2,14 @@ import {decorateCooked} from 'discourse/lib/plugin-api';
 import TableEditor from 'discourse/plugins/df-table/models/editor';
 export default {name: 'df-table', initialize(c) {if (Discourse.SiteSettings['«Table»_Enabled']) {
 	decorateCooked(c, onDecorateCooked);
-	if (PagedownCustom) {
+	/**
+	 * 2015-11-09
+	 * В последние дни Discourse переделали свой Composer,
+	 * и объекта PagedownCustom уже нет: https://meta.discourse.org/t/34679
+	 * Теперь кнопки надо добавлять иначе: https://meta.discourse.org/t/34679/29
+	 * https://github.com/discourse/discourse/commit/5cd63088500f6dc76f39e060fd3a3ef3988a791e
+	 */
+	if (window.PagedownCustom) {
     	PagedownCustom.appendButtons.push({
     		id: 'wmd-df-table'
     		,description: I18n.t('composer.df.table')
