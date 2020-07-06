@@ -17,17 +17,14 @@ export default {name: 'df-table', initialize() {
  * @returns void
  */
 const onDecorateCooked = function($post) {
-	/** @type {jQuery} HTMLTableElement[] */
-	const $tables = $('.cooked > table', $post);
+	const $tables = $('.cooked > table', $post); /** @type {jQuery} HTMLTableElement[] */
 	$tables.each(function() {
 		const $table = $(this);
 		const hasHeader = !!$('th', $table).length;
 		$('tr', $table).each(function(rowIndex) {
 			$('td', $(this)).each(function() {
-				/** @type {jQuery} HTMLTableCellElement */
-				const $td = $(this);
-				/** @type {String} */
-				var text = $td.html().trim();
+				const $td = $(this); /** @type {jQuery} HTMLTableCellElement */
+				var text = $td.html().trim(); /** @type {String} */
 				if ('#' === text) {
 					text = hasHeader ? rowIndex : rowIndex + 1;
 				}
