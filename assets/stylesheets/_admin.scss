@@ -1,8 +1,6 @@
-// 2015-07-06
-// Обратите внимание, что такой синтаксис не поддерживает звёздочку на конце:
-// надо явно указывать имя файла.
-@import '../../../plugins/df-core/assets/stylesheets/admin-lib/settings';
-.row.setting.df-textarea {
-	//@include df-row-setting-wide;
-	textarea {width: 90%;}
-}
+// 2015-07-06 Обратите внимание, что такой синтаксис не поддерживает звёздочку на конце: надо явно указывать имя файла.
+// 2022-08-14
+// SASS looks for the file in all load paths: https://sass-lang.com/documentation/at-rules/import#load-paths.
+// The root folder is within load paths.
+@import 'plugins/df-core/assets/stylesheets/admin-lib/settings';
+.row.setting.df-textarea {textarea {width: 90%;}}
