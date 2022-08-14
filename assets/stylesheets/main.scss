@@ -1,2 +1,7 @@
-.admin-contents {@import 'admin';}
-.cooked {@import 'cooked';}
+// 2022-08-14
+// 1) If not specify the full path,
+// then Discourse will include all stylesheets with the base name withing all load paths:
+// https://sass-lang.com/documentation/at-rules/import#load-paths.
+// 2) SASS does not allow variables in @import paths: https://stackoverflow.com/a/37569018
+.admin-contents {@import 'plugins/df-table/assets/stylesheets/admin';}
+.cooked {@import 'plugins/df-table/assets/stylesheets/cooked';}
