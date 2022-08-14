@@ -1,6 +1,9 @@
 // 2015-07-06 Обратите внимание, что такой синтаксис не поддерживает звёздочку на конце: надо явно указывать имя файла.
 // 2022-08-14
-// SASS looks for the file in all load paths: https://sass-lang.com/documentation/at-rules/import#load-paths.
-// The root folder is within load paths.
-@import 'plugins/df-core/assets/stylesheets/admin-lib/settings';
+// 1) A stylesheet included via `register_asset` should import other stylesheets using full paths,
+// otherwise Discourse will import all stylesheets with the specified base name found withing all load paths:
+// https://sass-lang.com/documentation/at-rules/import#load-paths.
+// 2) Other side, sub-imports should import other stylesheets only with relative paths: full paths do not work there.
+// 3) SASS does not allow variables in @import paths: https://stackoverflow.com/a/37569018
+@import '../../../df-core/assets/stylesheets/admin-lib/settings';
 .row.setting.df-textarea {textarea {width: 90%;}}
